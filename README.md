@@ -10,7 +10,7 @@ zadaci:
 problemi:
 * pretprocesor → incl, def, comm :x::grey_question:
 * kontrola toka → break, continue, goto :x:
-* doseg promenljivih → for ima najniži :heavy_check_mark:
+* doseg promenljivih → for ima najuži :heavy_check_mark:
 * nedostajuće vrednosti → for (;;) :heavy_check_mark:
 * ugnežđene petlje za promenu :heavy_check_mark:
 
