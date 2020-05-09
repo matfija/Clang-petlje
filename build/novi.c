@@ -48,5 +48,14 @@ int main() {
   printf("%d", x);
   putchar('\n');
 
+  if (0)
+    do {
+    } while (0);
+
+  if (0)
+    do
+      ;
+    while (0);
+
   return 0;
 }

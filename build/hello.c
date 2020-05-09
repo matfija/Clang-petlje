@@ -35,5 +35,11 @@ int main() {
   printf("%d", x);
   putchar('\n');
 
+  while (0) {
+  }
+
+  for (; 0;)
+    ;
+
   return 0;
 }

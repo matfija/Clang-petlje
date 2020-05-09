@@ -62,7 +62,7 @@ public:
     const auto offset = Lexer::MeasureTokenLength(end,
                             TheRewriter.getSourceMgr(),
                             TheRewriter.getLangOpts())
-                            + (ime != "r_brace");
+                            + (ime != "r_brace" && ime != "semi");
     
     // Promena teksta na izracunatom mestu
     SourceRange sr(start, end.getLocWithOffset(offset));
