@@ -14,6 +14,15 @@ problemi:
 * nedostajuće vrednosti → for (;;) :heavy_check_mark:
 * ugnežđene petlje za promenu :heavy_check_mark:
 
+predlozi:
+* jednoprolazno rešenje → bez glavne petlje
+* natklasa štedi kod → štampaj, zameni...
+* pretprocesor → regularni izrazi možda
+* kontrola toka → pametna zamena
+  * prolazak kroz decu tela
+  * for (auto x : s->getBody()->children())
+  * zamena svakog deteta ako treba
+
 setup:
 ```
 sudo apt-get update
