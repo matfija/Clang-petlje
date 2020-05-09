@@ -1,12 +1,5 @@
 ### clang-petlje
 
-zadaci:
-* kostur → parsiranje petlji :heavy_check_mark:
-* kod → razdvojiti cpp i hpp :x:
-* svođenje na do-while :heavy_check_mark::grey_question:
-* svođenje na while :x:
-* svođenje na for :x:
-
 problemi:
 * pretprocesor → incl, def, comm :x::grey_question:
 * kontrola toka → break, continue, goto :x:
@@ -16,6 +9,7 @@ problemi:
 
 predlozi:
 * jednoprolazno rešenje → bez glavne petlje
+* razdvojiti cpp i hpp → ne sme samo hpp
 * natklasa štedi kod → štampaj, zameni...
 * pretprocesor → regularni izrazi možda
 * kontrola toka → pametna zamena
