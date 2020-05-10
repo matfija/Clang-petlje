@@ -2,20 +2,10 @@
 
 problemi:
 * pretprocesor → incl, def, comm :x::grey_question:
-* kontrola toka → break, continue, goto :x:
+* kontrola toka → zamena continue :x:
 * doseg promenljivih → for ima najuži :heavy_check_mark:
 * nedostajuće vrednosti → for (;;) :heavy_check_mark:
-* ugnežđene petlje za promenu :heavy_check_mark:
-
-predlozi:
-* jednoprolazno rešenje → bez glavne petlje
-* razdvojiti cpp i hpp → ne sme samo hpp
-* natklasa štedi kod → štampaj, zameni...
-* pretprocesor → regularni izrazi možda
-* kontrola toka → pametna zamena
-  * prolazak kroz decu tela
-  * for (auto x : s->getBody()->children())
-  * zamena svakog deteta ako treba
+* ugnežđene petlje za promenu :heavy_check_mark::grey_question:
 
 setup:
 ```

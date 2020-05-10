@@ -1,0 +1,53 @@
+------------------------------------------------
+* kod
+  * natklasa       →  štampaj, zameni, napravi
+  * cpp/hpp        →  ne sme da ima samo hpp
+  * jednoprolazno  →  bez glavne petlje
+------------------------------------------------
+* iz do
+  * na while  →  goto početak tela
+  * na for    →  goto početak tela
+
+do {
+  telo;
+} while (uslov);
+
+goto loop0:
+while (uslov) {
+  loop0:
+  telo;
+}
+
+goto loop1:
+for (; uslov;) {
+  loop1:
+  telo;
+}
+------------------------------------------------
+* ostalo
+  * while na for  →  bez izmena
+  * for na while  →  zamena continue
+
+while (uslov0) {
+  telo0;
+}
+
+for (; uslov0; ) {
+  telo0;
+}
+
+for (init; uslov1; inc) {
+  telo1;
+}
+
+{
+  init;
+  while (uslov1) {
+    telo1[continue; → {
+                        inc;
+                        continue;
+                      }];
+    inc;
+  }
+}
+------------------------------------------------
