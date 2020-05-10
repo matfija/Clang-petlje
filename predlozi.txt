@@ -14,13 +14,13 @@ do {
 
 goto loop0:
 while (uslov) {
-  loop0:
+loop0:
   telo;
 }
 
 goto loop1:
 for (; uslov;) {
-  loop1:
+loop1:
   telo;
 }
 ------------------------------------------------
