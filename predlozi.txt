@@ -2,7 +2,7 @@
 * kod
   * natklasa       →  štampaj, zameni, napravi
   * cpp/hpp        →  ne sme da ima samo hpp
-  * jednoprolazno  →  bez glavne petlje
+  * jednoprolazno  →  bez glavne petlje (?)
 ------------------------------------------------
 * iz do
   * na while  →  goto početak tela
@@ -12,13 +12,13 @@ do {
   telo;
 } while (uslov);
 
-goto loop0:
+goto loop0;
 while (uslov) {
 loop0:
   telo;
 }
 
-goto loop1:
+goto loop1;
 for (; uslov;) {
 loop1:
   telo;
@@ -32,7 +32,7 @@ while (uslov0) {
   telo0;
 }
 
-for (; uslov0; ) {
+for (; uslov0;) {
   telo0;
 }
 

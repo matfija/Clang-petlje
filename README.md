@@ -1,7 +1,6 @@
 ### clang-petlje
 
 problemi:
-* pretprocesor → incl, def, comm :x::grey_question:
 * kontrola toka → zamena continue :x:
 * doseg promenljivih → for ima najuži :heavy_check_mark:
 * nedostajuće vrednosti → for (;;) :heavy_check_mark:
