@@ -4,7 +4,7 @@ problemi:
 * kontrola toka → zamena continue :x:
 * doseg promenljivih → for ima najuži :heavy_check_mark:
 * nedostajuće vrednosti → for (;;) :heavy_check_mark:
-* ugnežđene petlje za promenu :heavy_check_mark::grey_question:
+* ugnežđene petlje za promenu :heavy_check_mark:
 
 setup:
 ```

@@ -1,9 +1,4 @@
 ------------------------------------------------
-* kod
-  * natklasa       →  štampaj, zameni, napravi
-  * cpp/hpp        →  ne sme da ima samo hpp
-  * jednoprolazno  →  bez glavne petlje (?)
-------------------------------------------------
 * iz do
   * na while  →  goto početak tela
   * na for    →  goto početak tela
@@ -24,6 +19,11 @@ loop1:
   telo;
 }
 ------------------------------------------------
+* kod
+  * natklasa     →  štampaj, zameni, napravi
+  * cpp/hpp      →  ne sme da ima samo hpp
+  * dvoprolazno  →  prvo zamena continue
+
 * ostalo
   * while na for  →  bez izmena
   * for na while  →  zamena continue
