@@ -1,53 +1,50 @@
 ------------------------------------------------
-* iz do
-  * na while  →  goto početak tela
-  * na for    →  goto početak tela
+* dorađivanje koda
+  * natklasa      →  štampaj, zameni, napravi
+  * cpp/hpp       →  ne sme da ima samo hpp
+  * višeprolazno  →  zamena continue i slično
+------------------------------------------------
+* while na for →  bez izmena
+
+while (uslov) {
+  telo;
+}
+
+for (; uslov;) {
+  telo;
+}
+------------------------------------------------
+* do na for → uslovna promenljiva
 
 do {
   telo;
 } while (uslov);
 
-goto loop0;
-while (uslov) {
-loop0:
-  telo;
-}
-
-goto loop1;
-for (; uslov;) {
-loop1:
-  telo;
+{
+  int cond = 1;
+  for (; cond; cond = uslov) {
+    telo;
+  }
 }
 ------------------------------------------------
-* kod
-  * natklasa     →  štampaj, zameni, napravi
-  * cpp/hpp      →  ne sme da ima samo hpp
-  * dvoprolazno  →  prvo zamena continue
+* for na while →  zamena continue
 
-* ostalo
-  * while na for  →  bez izmena
-  * for na while  →  zamena continue
-
-while (uslov0) {
-  telo0;
-}
-
-for (; uslov0;) {
-  telo0;
-}
-
-for (init; uslov1; inc) {
-  telo1;
+for (init; uslov; inc) {
+  telo;
 }
 
 {
   init;
-  while (uslov1) {
-    telo1[continue; → {
+  while (uslov) {
+    telo[continue; → {
                         inc;
                         continue;
-                      }];
+                     }];
     inc;
   }
 }
+------------------------------------------------
+* do na while → preko for (ponavljanje)
+------------------------------------------------
+* for na do → zamena continue (ponavljanje)
 ------------------------------------------------
