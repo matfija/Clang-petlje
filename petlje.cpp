@@ -24,12 +24,13 @@ int main(int argc, char *argv[]) {
     // Pravljenje i inicijalizacija prevodioca
     CompilerInstance TheCompInst;
     TheCompInst.createDiagnostics();
+    auto &TheDiagnostics = TheCompInst.getDiagnostics();
+    TheDiagnostics.setSuppressAllDiagnostics();
 
     // Postavljanje podataka o ciljnoj platformi
     auto TO = std::make_shared<TargetOptions>();
     TO->Triple = llvm::sys::getDefaultTargetTriple();
-    auto *TI = TargetInfo::CreateTargetInfo(
-        TheCompInst.getDiagnostics(), TO);
+    auto *TI = TargetInfo::CreateTargetInfo(TheDiagnostics, TO);
     TheCompInst.setTarget(TI);
     
     // Pravljenje upravljaca datoteka
@@ -43,7 +44,6 @@ int main(int argc, char *argv[]) {
     // Pravljenje pretprocesora
     TheCompInst.createPreprocessor(TU_Module);
     auto &ThePreprocessor = TheCompInst.getPreprocessor();
-    ThePreprocessor.SetSuppressIncludeNotFoundError(true);
     
     // Pravljenje AST konteksta
     TheCompInst.createASTContext();
