@@ -79,7 +79,6 @@ int main(int argc, char *argv[]) {
 
     // Upisivanje novog koda iz bafera; u slucaju da nema
     // izmena, prosto prepisivanje starog koda
-    
     const auto *RewriteBuf =
         TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
     if (RewriteBuf != nullptr) {

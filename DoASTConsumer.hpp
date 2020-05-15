@@ -39,7 +39,7 @@ public:
   	s->printPretty(stream, nullptr, PrintingPolicy(LangOptions()));
   	stream.flush();
   	stmt.pop_back();
-  	return std::move(stmt);
+  	return stmt;
   }
   
   // Tekstualna zamena koda
