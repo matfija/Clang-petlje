@@ -33,7 +33,7 @@ include_directories(
   ${LibClang_INCLUDE_DIR}
 )
 
-add_executable(petlje petlje.cpp)
+add_executable(petlje src/petlje.cpp)
 target_link_libraries(petlje ${LibClang_LINK_PATH}/libLLVM-6.0.so)
 target_link_libraries(petlje ${LibClang_LINK_PATH}/libclangTooling.a)
 target_link_libraries(petlje ${LibClang_LINK_PATH}/libclangAnalysis.a)
