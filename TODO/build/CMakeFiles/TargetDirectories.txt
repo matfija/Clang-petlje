@@ -1,0 +1,3 @@
+/home/marija/Clang-petlje/build/CMakeFiles/rebuild_cache.dir
+/home/marija/Clang-petlje/build/CMakeFiles/petlje.dir
+/home/marija/Clang-petlje/build/CMakeFiles/edit_cache.dir
