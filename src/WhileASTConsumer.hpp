@@ -1,3 +1,6 @@
+#ifndef __WHILE_AST__
+#define __WHILE_AST__ 1
+
 // Ukljucivanje standardnih biblioteka
 #include <iostream>
 #include <memory>
@@ -21,43 +24,29 @@
 #include "clang/Parse/ParseAST.h"
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "llvm/Support/raw_ostream.h"
+#include "Helpers.hpp"
 
 // Upotreba Clangovog imenskog prostora
 using namespace clang;
 
 // Posetilac koji sve petlje pretvara u while
-class WhileASTVisitor : public RecursiveASTVisitor<WhileASTVisitor> {
+class WhileASTVisitor : public RecursiveASTVisitor<WhileASTVisitor>, public Helpers {
 public:
   // Inicijalizacija prepisivaca i konteksta
   WhileASTVisitor(Rewriter &R, ASTContext &A)
-    : TheRewriter(R), TheASTContext(A) {}
+    : Helpers(R, A)
+    {}
   
   // Pretvaranje do-while petlji u while
-  bool VisitDoStmt(DoStmt *s) {
-    // Nastavljanje dalje
-    return true;
-  }
+  bool VisitDoStmt(DoStmt *s);
   
   // Pretvaranje for petlji u while
-  bool VisitForStmt(ForStmt *s) {
-    // Nastavljanje dalje
-    return true;
-  }
-  
+  bool VisitForStmt(ForStmt *s);
   // Prekid obilaska kod do petlje
-  bool TraverseDoStmt(DoStmt* s) {
-    return WalkUpFromDoStmt(s);
-  }
+  bool TraverseDoStmt(DoStmt* s);
   
   // Prekid obilaska kod for petlje
-  bool TraverseForStmt(ForStmt* s) {
-    return WalkUpFromForStmt(s);
-  }
-
-private:
-  // Privatno cuvanje prepisivaca i konteksta
-  Rewriter &TheRewriter;
-  ASTContext &TheASTContext;
+  bool TraverseForStmt(ForStmt* s);
 };
 
 // Klasa za obradu dobijenog AST stabla
@@ -69,14 +58,11 @@ public:
     : Visitor(R, A) {}
 
   // Svaka deklaracija obradjuje se zasebno
-  bool HandleTopLevelDecl(DeclGroupRef DR) override {
-    for (auto &x: DR)
-      Visitor.TraverseDecl(x);
-    return true;
-  }
+  bool HandleTopLevelDecl(DeclGroupRef DR) override;
 
 private:
   // Privatno cuvanje posetioca stabla
   WhileASTVisitor Visitor;
 };
 
+#endif

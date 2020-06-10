@@ -1,3 +1,6 @@
+#ifndef __DO_AST__
+#define __DO_AST__ 1
+
 // Ukljucivanje standardnih biblioteka
 #include <iostream>
 #include <memory>
@@ -21,132 +24,30 @@
 #include "clang/Parse/ParseAST.h"
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "llvm/Support/raw_ostream.h"
+#include "Helpers.hpp"
+
 
 // Upotreba Clangovog imenskog prostora
 using namespace clang;
 
 // Posetilac koji sve petlje pretvara u do-while
-class DoASTVisitor : public RecursiveASTVisitor<DoASTVisitor> {
+class DoASTVisitor : public RecursiveASTVisitor<DoASTVisitor>, public Helpers {
 public:
   // Inicijalizacija prepisivaca i konteksta
   DoASTVisitor(Rewriter &R, ASTContext &A)
-    : TheRewriter(R), TheASTContext(A) {}
-  
-  // Dohvatanje tekstualne reprezentacije iskaza
-  std::string stampaj(Stmt* s) {
-  	std::string stmt;
-  	llvm::raw_string_ostream stream(stmt);
-  	s->printPretty(stream, nullptr, PrintingPolicy(LangOptions()));
-  	stream.flush();
-  	stmt.pop_back();
-  	return stmt;
-  }
-  
-  // Tekstualna zamena koda
-  void zameni(Stmt* stari, Stmt* novi) {
-    // Tekstualna reprezentacija novog iskaza
-    std::string stmt = stampaj(novi);
-    
-    // Granicne oznake u kodu
-    const auto start = stari->getSourceRange().getBegin();
-    const auto end = stari->getSourceRange().getEnd();
-    
-    // Dohvatanje poslednjeg tokena
-    Token tok;
-    Lexer::getRawToken(end, tok, TheRewriter.getSourceMgr(),
-                       TheRewriter.getLangOpts());
-    std::string ime = tok.getName();
-    
-    // Racunanje offseta osim ukoliko je kraj slozene naredbe,
-    // sto znaci sledi tacka-zapeta kao suvisni token
-    const auto offset = Lexer::MeasureTokenLength(end,
-                            TheRewriter.getSourceMgr(),
-                            TheRewriter.getLangOpts())
-                            + (ime != "r_brace" && ime != "semi");
-    
-    // Promena teksta na izracunatom mestu
-    SourceRange sr(start, end.getLocWithOffset(offset));
-    TheRewriter.ReplaceText(sr, stmt);
-  }
-  
+    :Helpers(R, A) {}
+
   // Pretvaranje while petlji u do-while
-  bool VisitWhileStmt(WhileStmt *s) {
-    // Odgovarajuca do-while verzija
-    DoStmt petlja(s->getBody(), s->getCond(),
-                  SourceLocation(), SourceLocation(), SourceLocation());
-    
-    // If iskaz za proveru uslova petlje
-    IfStmt uslov(TheASTContext, SourceLocation(),
-                 false, nullptr, nullptr, s->getCond(), &petlja);
-    
-    // Tekstualna zamena koda
-    zameni(s, &uslov);
-    
-    // Nastavljanje dalje
-    return true;
-  }
+  bool VisitWhileStmt(WhileStmt *s);
   
   // Pretvaranje for petlji u do-while
-  bool VisitForStmt(ForStmt *s) {
-    // Slozeni iskaz sa telom i inkrementacijom
-    // ili samo telo ako nema inkrementacije
-    Stmt* telo;
-    if (s->getInc() != nullptr) {
-      telo = CompoundStmt::Create(TheASTContext,
-                 std::vector<Stmt*>{s->getBody(), s->getInc()},
-                 SourceLocation(), SourceLocation());
-    } else {
-      telo = s->getBody();
-    }
-    
-    // Do-while petlja sa novim telom i uslovom
-    // ili beskonacna petlja ako nema uslova
-    Expr* cond = s->getCond();
-    if (cond == nullptr) {
-      const auto tip = TheASTContext.IntTy;
-      llvm::APInt APValue(TheASTContext.getTypeSize(tip), 1);
-      cond = IntegerLiteral::Create(TheASTContext, APValue,
-                                    tip, SourceLocation());
-    }
-    DoStmt petlja(telo, cond, SourceLocation(),
-                  SourceLocation(), SourceLocation());
-    
-    // If iskaz za proveru uslova petlje
-    IfStmt uslov(TheASTContext, SourceLocation(),
-                 false, nullptr, nullptr, cond, &petlja);
-    
-    // Slozeni iskaz sa inicijalizacijom i petljom
-    // ili samo petlja ako nema inicijalizacije
-    Stmt* initpet;
-    if (s->getInit() != nullptr) {
-      initpet = CompoundStmt::Create(TheASTContext,
-                    std::vector<Stmt*>{s->getInit(), &uslov},
-                    SourceLocation(), SourceLocation());
-    } else {
-      initpet = &uslov;
-    }
-    
-    // Tekstualna zamena koda
-    zameni(s, initpet);
-    
-    // Nastavljanje dalje
-    return true;
-  }
+  bool VisitForStmt(ForStmt *s);
   
   // Prekid obilaska kod while petlje
-  bool TraverseWhileStmt(WhileStmt* s) {
-    return WalkUpFromWhileStmt(s);
-  }
+  bool TraverseWhileStmt(WhileStmt* s);
   
   // Prekid obilaska kod for petlje
-  bool TraverseForStmt(ForStmt* s) {
-    return WalkUpFromForStmt(s);
-  }
-
-private:
-  // Privatno cuvanje prepisivaca i konteksta
-  Rewriter &TheRewriter;
-  ASTContext &TheASTContext;
+  bool TraverseForStmt(ForStmt* s);
 };
 
 // Klasa za obradu dobijenog AST stabla
@@ -158,14 +59,11 @@ public:
     : Visitor(R, A) {}
 
   // Svaka deklaracija obradjuje se zasebno
-  bool HandleTopLevelDecl(DeclGroupRef DR) override {
-    for (auto &x: DR)
-      Visitor.TraverseDecl(x);
-    return true;
-  }
+  bool HandleTopLevelDecl(DeclGroupRef DR) override;
 
 private:
   // Privatno cuvanje posetioca stabla
   DoASTVisitor Visitor;
 };
 
+#endif
