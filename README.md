@@ -1,11 +1,5 @@
 ### clang-petlje
 
-problemi:
-* kontrola toka → zamena continue :x:
-* doseg promenljivih → for ima najuži :heavy_check_mark:
-* nedostajuće vrednosti → for (;;) :heavy_check_mark:
-* ugnežđene petlje za promenu :heavy_check_mark:
-
 setup:
 ```
 sudo apt-get update
@@ -21,7 +15,7 @@ make
 
 test:
 ```
-./petlje <stari> <novi> [do|while|for]
+./petlje <stari> <novi> <do|while|for>
 ./petlje hello.c novi.c do
 ```
 
@@ -30,4 +24,3 @@ tim:
 * [marija erić](https://github.com/MarijaEric), 115/2017
 * [lazar vasović](https://github.com/matfija), 99/2016
 * [darko nešković](https://github.com/darko123455), 208/2016
-

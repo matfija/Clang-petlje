@@ -40,6 +40,12 @@ int main() {
 
   for (; 0;)
     ;
+  
+  for (x = -5; x; x++)
+    continue;
+  
+  for (x = 0; x;)
+    continue;
 
   return 0;
 }

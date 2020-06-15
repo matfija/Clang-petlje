@@ -57,5 +57,22 @@ int main() {
       ;
     while (0);
 
+  {
+    x = -5;
+    if (x)
+      do {
+        continue;
+        x++;
+      } while (x);
+  }
+
+  {
+    x = 0;
+    if (x)
+      do
+        continue;
+      while (x);
+  }
+
   return 0;
 }
