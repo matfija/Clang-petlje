@@ -1,8 +1,11 @@
 // Ukljucivanje implementiranih klasa
 #include "Helpers.hpp"
-#include "DoASTConsumer.hpp"
-#include "WhileASTConsumer.hpp"
-#include "ForASTConsumer.hpp"
+#include "DoFromWhileASTConsumer.hpp"
+#include "DoFromForASTConsumer.hpp"
+#include "WhileFromForASTConsumer.hpp"
+#include "WhileFromDoASTConsumer.hpp"
+#include "ForFromWhileASTConsumer.hpp"
+#include "ForFromDoASTConsumer.hpp"
 
 // Nacin upotrebe programa
 const auto upotreba = "Upotreba: ./petlje <stari> <novi> [do|while|for]\n";
@@ -61,22 +64,53 @@ int main(int argc, char *argv[]) {
         TheCompInst.getLangOpts(), &ThePreprocessor);
 
     // Odabir petlje u koju se ostale menjaju
-    auto &TheASTContext = TheCompInst.getASTContext();
+
+    /*
     ASTConsumer* TheConsumer;
+switch (akcija) {
+  case While2Do:
+    TheConsumer = new DoFromWhileASTConsumer(TheRewriter, TheASTContext);
+    break;
+  case Do2While:
+    TheConsumer = new WhileFromDoASTConsumer(TheRewriter, TheASTContext);
+    break;
+  case Do2For:
+    TheConsumer = new ForFromDoASTConsumer(TheRewriter, TheASTContext);
+    break;
+  case While2For:
+    TheConsumer = new ForFromWhileASTConsumer(TheRewriter, TheASTContext);
+    break;
+  case PrepFor:
+    TheConsumer = new ContASTConsumer(TheRewriter, TheASTContext);
+    break;
+  case For2While:
+    TheConsumer = new WhileFromForASTConsumer(TheRewriter, TheASTContext);
+    break;
+  case For2Do:
+    TheConsumer = new DoFromForASTConsumer(TheRewriter, TheASTContext);
+    break;
+  default:
+    exit(EXIT_FAILURE);
+}
+    */
+    auto &TheASTContext = TheCompInst.getASTContext();
+    ASTConsumer* TheConsumer1;
+    ASTConsumer* TheConsumer2;
     if (petlja == "do") {
-      TheConsumer = new DoASTConsumer(TheRewriter, TheASTContext);
+      TheConsumer1 = new DoFromWhileASTConsumer(TheRewriter, TheASTContext);
+      TheConsumer2 = new DoFromForASTConsumer(TheRewriter, TheASTContext);
     } else if (petlja == "while") {
-      TheConsumer = new WhileASTConsumer(TheRewriter, TheASTContext);
+      TheConsumer1 = new WhileFromDoASTConsumer(TheRewriter, TheASTContext);
     } else if (petlja == "for") {
-      TheConsumer = new ForASTConsumer(TheRewriter, TheASTContext);
+      TheConsumer1 = new ForFromWhileASTConsumer(TheRewriter, TheASTContext);
     } else {
       llvm::errs() << upotreba;
       exit(EXIT_FAILURE);
     }
     
     // Parsiranje i obrada AST stabla
-    ParseAST(ThePreprocessor, TheConsumer, TheASTContext);
-    delete TheConsumer;
+    ParseAST(ThePreprocessor, TheConsumer1, TheASTContext);
+    delete TheConsumer1;
 
     // Upisivanje novog koda iz bafera; u slucaju da nema
     // izmena, prosto prepisivanje starog koda

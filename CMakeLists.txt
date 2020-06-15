@@ -33,7 +33,7 @@ include_directories(
   ${LibClang_INCLUDE_DIR}
 )
 
-add_executable(petlje src/petlje.cpp src/Helpers.cpp src/DoASTConsumer.cpp src/ForASTConsumer.cpp src/WhileASTConsumer.cpp)
+add_executable(petlje src/petlje.cpp src/Helpers.cpp src/DoFromWhileASTConsumer.cpp src/DoFromForASTConsumer.cpp src/ForFromDoASTConsumer.cpp src/ForFromWhileASTConsumer.cpp src/WhileFromDoASTConsumer.cpp src/WhileFromForASTConsumer.cpp)
 target_link_libraries(petlje ${LibClang_LINK_PATH}/libLLVM-6.0.so)
 target_link_libraries(petlje ${LibClang_LINK_PATH}/libclangTooling.a)
 target_link_libraries(petlje ${LibClang_LINK_PATH}/libclangAnalysis.a)
