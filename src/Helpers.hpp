@@ -1,6 +1,7 @@
 #ifndef __HELPERS_HPP__
 #define __HELPERS_HPP__ 1
 
+// Ukljucivanje standardnih biblioteka
 #include <iostream>
 #include <memory>
 #include <fstream>
@@ -24,21 +25,24 @@
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "llvm/Support/raw_ostream.h"
 
+// Upotreba Clangovog imenskog prostora
 using namespace clang;
 
 class Helpers {
-    public:
-        Helpers(Rewriter &R, ASTContext &A)
-        : TheRewriter(R), TheASTContext(A)
-        {}
-        // Dohvatanje tekstualne reprezentacije iskaza
-        std::string stampaj(Stmt* s);
+public:
+  Helpers(Rewriter &R, ASTContext &A)
+    : TheRewriter(R), TheASTContext(A)
+      {}
   
-        // Tekstualna zamena koda
-        void zameni(Stmt* stari, Stmt* novi);
-    protected:
-        Rewriter &TheRewriter;
-        ASTContext &TheASTContext;
+  // Dohvatanje tekstualne reprezentacije iskaza
+  std::string stampaj(Stmt* s);
+  
+  // Tekstualna zamena koda
+  void zameni(Stmt* stari, Stmt* novi);
+
+protected:
+  Rewriter &TheRewriter;
+  ASTContext &TheASTContext;
 };
 
 #endif

@@ -1,28 +1,26 @@
 // Ukljucivanje implementiranih klasa
-#include "Helpers.hpp"
-#include "DoFromWhileASTConsumer.hpp"
-#include "DoFromForASTConsumer.hpp"
-#include "WhileFromForASTConsumer.hpp"
-#include "WhileFromDoASTConsumer.hpp"
-#include "ForFromWhileASTConsumer.hpp"
-#include "ForFromDoASTConsumer.hpp"
+#include "While2DoConsumer.hpp"
+#include "Do2ForConsumer.hpp"
+#include "While2ForConsumer.hpp"
+#include "For2WhileConsumer.hpp"
+#include "For2DoConsumer.hpp"
+
+// Enumeracija akcija
+enum Akcija {
+  While2Do,
+  Do2For,
+  While2For,
+  PrepFor,
+  For2While,
+  For2Do
+};
 
 // Nacin upotrebe programa
-const auto upotreba = "Upotreba: ./petlje <stari> <novi> [do|while|for]\n";
+std::string stari, novi, petlja;
+const auto upotreba = "Upotreba: ./petlje <stari> <novi> <do|while|for>\n";
 
-// Boilerplate kod za rad sa AST
-int main(int argc, char *argv[]) {
-  // Prekid pogresno pokrenutog programa
-  if (argc != 4) {
-    llvm::errs() << upotreba;
-    exit(EXIT_FAILURE);
-  }
-  
-  // Citranje argumenata
-  auto stari = std::string(argv[1]);
-  const auto novi = std::string(argv[2]);
-  const auto petlja = std::string(argv[3]);
-
+// Obrada prema zeljenoj akciji
+void obradi(const Akcija &akcija) {
   // Parsiranje dokle god ima promena
   for(;;) {
     // Pravljenje i inicijalizacija prevodioca
@@ -64,53 +62,34 @@ int main(int argc, char *argv[]) {
         TheCompInst.getLangOpts(), &ThePreprocessor);
 
     // Odabir petlje u koju se ostale menjaju
-
-    /*
-    ASTConsumer* TheConsumer;
-switch (akcija) {
-  case While2Do:
-    TheConsumer = new DoFromWhileASTConsumer(TheRewriter, TheASTContext);
-    break;
-  case Do2While:
-    TheConsumer = new WhileFromDoASTConsumer(TheRewriter, TheASTContext);
-    break;
-  case Do2For:
-    TheConsumer = new ForFromDoASTConsumer(TheRewriter, TheASTContext);
-    break;
-  case While2For:
-    TheConsumer = new ForFromWhileASTConsumer(TheRewriter, TheASTContext);
-    break;
-  case PrepFor:
-    TheConsumer = new ContASTConsumer(TheRewriter, TheASTContext);
-    break;
-  case For2While:
-    TheConsumer = new WhileFromForASTConsumer(TheRewriter, TheASTContext);
-    break;
-  case For2Do:
-    TheConsumer = new DoFromForASTConsumer(TheRewriter, TheASTContext);
-    break;
-  default:
-    exit(EXIT_FAILURE);
-}
-    */
     auto &TheASTContext = TheCompInst.getASTContext();
-    ASTConsumer* TheConsumer1;
-    ASTConsumer* TheConsumer2;
-    if (petlja == "do") {
-      TheConsumer1 = new DoFromWhileASTConsumer(TheRewriter, TheASTContext);
-      TheConsumer2 = new DoFromForASTConsumer(TheRewriter, TheASTContext);
-    } else if (petlja == "while") {
-      TheConsumer1 = new WhileFromDoASTConsumer(TheRewriter, TheASTContext);
-    } else if (petlja == "for") {
-      TheConsumer1 = new ForFromWhileASTConsumer(TheRewriter, TheASTContext);
-    } else {
-      llvm::errs() << upotreba;
-      exit(EXIT_FAILURE);
+    ASTConsumer* TheConsumer;
+    switch (akcija) {
+      case While2Do:
+        TheConsumer = new While2DoConsumer(TheRewriter, TheASTContext);
+        break;
+      case Do2For:
+        TheConsumer = new Do2ForConsumer(TheRewriter, TheASTContext);
+        break;
+      case While2For:
+        TheConsumer = new While2ForConsumer(TheRewriter, TheASTContext);
+        break;
+      case PrepFor:
+        /*TheConsumer = new PrepForConsumer(TheRewriter, TheASTContext);
+        break;*/
+      case For2While:
+        TheConsumer = new For2WhileConsumer(TheRewriter, TheASTContext);
+        break;
+      case For2Do:
+        TheConsumer = new For2DoConsumer(TheRewriter, TheASTContext);
+        break;
+      default:
+        exit(EXIT_FAILURE);
     }
     
     // Parsiranje i obrada AST stabla
-    ParseAST(ThePreprocessor, TheConsumer1, TheASTContext);
-    delete TheConsumer1;
+    ParseAST(ThePreprocessor, TheConsumer, TheASTContext);
+    delete TheConsumer;
 
     // Upisivanje novog koda iz bafera; u slucaju da nema
     // izmena, prosto prepisivanje starog koda
@@ -132,7 +111,43 @@ switch (akcija) {
     
     // Zamena starog fajla
     stari = novi;
+    
+    // Priprema je jednoprolazna
+    if (akcija == Akcija::PrepFor)
+      break;
   }
+}
+
+// Boilerplate kod za rad sa AST
+int main(int argc, char *argv[]) {
+  // Prekid pogresno pokrenutog programa
+  if (argc != 4) {
+    llvm::errs() << upotreba;
+    exit(EXIT_FAILURE);
+  }
+  
+  // Citanje argumenata
+  stari = std::string(argv[1]);
+  novi = std::string(argv[2]);
+  petlja = std::string(argv[3]);
+  
+  // Prvi deo algoritma
+  if (petlja == "do")
+    obradi(While2Do);
+  else
+    obradi(Do2For);
+  
+  // Drugi deo algoritma
+  if (petlja == "for")
+    obradi(While2For);
+  else
+    obradi(PrepFor);
+  
+  // Treci deo algoritma
+  if (petlja == "while")
+    obradi(For2While);
+  else if (petlja == "do")
+    obradi(For2Do);
   
   // Lepo formatiranje novog koda
   std::ostringstream buffer;
