@@ -4,6 +4,7 @@
 #include "While2ForConsumer.hpp"
 #include "For2WhileConsumer.hpp"
 #include "For2DoConsumer.hpp"
+#include "PrepForConsumer.hpp"
 
 // Enumeracija akcija
 enum Akcija {
@@ -75,8 +76,8 @@ void obradi(const Akcija &akcija) {
         TheConsumer = new While2ForConsumer(TheRewriter, TheASTContext);
         break;
       case PrepFor:
-        /*TheConsumer = new PrepForConsumer(TheRewriter, TheASTContext);
-        break;*/
+        TheConsumer = new PrepForConsumer(TheRewriter, TheASTContext);
+        break;
       case For2While:
         TheConsumer = new For2WhileConsumer(TheRewriter, TheASTContext);
         break;
