@@ -56,10 +56,3 @@ bool Do2ForVisitor::TraverseDecl(Decl *d) {
   // Nastavljanje dalje
   return RecursiveASTVisitor<Do2ForVisitor>::TraverseDecl(d);
 }
-
-// Svaka deklaracija obradjuje se zasebno
-bool Do2ForConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
-  for (auto &x: DR)
-    Visitor.TraverseDecl(x);
-  return true;
-}

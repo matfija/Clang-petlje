@@ -38,10 +38,3 @@ bool PrepForVisitor::VisitContinueStmt(ContinueStmt *s) {
   // Nastavljanje dalje
   return true;
 }
-
-// Svaka deklaracija obradjuje se zasebno
-bool PrepForConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
-  for (auto &x: DR)
-    Visitor.TraverseDecl(x);
-  return true;
-}

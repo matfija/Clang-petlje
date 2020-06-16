@@ -47,10 +47,3 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
 bool For2WhileVisitor::TraverseForStmt(ForStmt* s) {
   return WalkUpFromForStmt(s);
 }
-
-// Svaka deklaracija obradjuje se zasebno
-bool For2WhileConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
-  for (auto &x: DR)
-    Visitor.TraverseDecl(x);
-  return true;
-}

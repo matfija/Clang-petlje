@@ -17,10 +17,3 @@ bool While2ForVisitor::VisitWhileStmt(WhileStmt *s) {
 bool While2ForVisitor::TraverseWhileStmt(WhileStmt* s) {
   return WalkUpFromWhileStmt(s);
 }
-
-// Svaka deklaracija obradjuje se zasebno
-bool While2ForConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
-  for (auto &x: DR)
-    Visitor.TraverseDecl(x);
-  return true;
-}

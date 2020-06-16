@@ -67,22 +67,22 @@ void obradi(const Akcija &akcija) {
     ASTConsumer* TheConsumer;
     switch (akcija) {
       case While2Do:
-        TheConsumer = new While2DoConsumer(TheRewriter, TheASTContext);
+        TheConsumer = new LoopConsumer<While2DoVisitor>(TheRewriter, TheASTContext);
         break;
       case Do2For:
-        TheConsumer = new Do2ForConsumer(TheRewriter, TheASTContext);
+        TheConsumer = new LoopConsumer<Do2ForVisitor>(TheRewriter, TheASTContext);
         break;
       case While2For:
-        TheConsumer = new While2ForConsumer(TheRewriter, TheASTContext);
+        TheConsumer = new LoopConsumer<While2ForVisitor>(TheRewriter, TheASTContext);
         break;
       case PrepFor:
-        TheConsumer = new PrepForConsumer(TheRewriter, TheASTContext);
+        TheConsumer = new LoopConsumer<PrepForVisitor>(TheRewriter, TheASTContext);
         break;
       case For2While:
-        TheConsumer = new For2WhileConsumer(TheRewriter, TheASTContext);
+        TheConsumer = new LoopConsumer<For2WhileVisitor>(TheRewriter, TheASTContext);
         break;
       case For2Do:
-        TheConsumer = new For2DoConsumer(TheRewriter, TheASTContext);
+        TheConsumer = new LoopConsumer<For2DoVisitor>(TheRewriter, TheASTContext);
         break;
       default:
         exit(EXIT_FAILURE);
