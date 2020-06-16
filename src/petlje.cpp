@@ -20,7 +20,8 @@ enum Akcija {
 std::string stari, novi, petlja;
 const auto upotreba = "Upotreba: ./petlje <stari> <novi> <do|while|for>\n";
 
-// Obrada prema zeljenoj akciji
+// Obrada prema zeljenoj akciji; sustinski
+// boilerplate (sablonski) kod za rad sa AST
 void obradi(const Akcija &akcija) {
   // Parsiranje dokle god ima promena
   for(;;) {
@@ -119,7 +120,7 @@ void obradi(const Akcija &akcija) {
   }
 }
 
-// Boilerplate kod za rad sa AST
+// Glavna funkcija aplikacije
 int main(int argc, char *argv[]) {
   // Prekid pogresno pokrenutog programa
   if (argc != 4) {
@@ -166,4 +167,3 @@ int main(int argc, char *argv[]) {
   // Normalno zavrsavanje programa
   exit(EXIT_SUCCESS);
 }
-
