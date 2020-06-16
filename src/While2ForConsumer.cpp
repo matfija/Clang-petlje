@@ -4,7 +4,7 @@
 bool While2ForVisitor::VisitWhileStmt(WhileStmt *s) {
   // Formiranje nove for petlje
   ForStmt petlja(TheASTContext, nullptr, s->getCond(), nullptr, nullptr, s->getBody(),
-                SourceLocation(), SourceLocation(), SourceLocation());
+                 SourceLocation(), SourceLocation(), SourceLocation());
   
   // Tekstualna zamena koda
   zameni(s, &petlja);

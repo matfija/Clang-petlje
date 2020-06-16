@@ -16,7 +16,7 @@ make
 test:
 ```
 ./petlje <stari> <novi> <do|while|for>
-./petlje hello.c novi.c do
+./petlje ulaz.c izlaz.c do
 ```
 
 tim:

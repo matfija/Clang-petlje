@@ -5,7 +5,7 @@ set(CMAKE_MODULE_PATH
   "${CMAKE_SOURCE_DIR}/cmake/modules"
 )
 
-set(CMAKE_CXX_FLAGS "-std=c++11 -w")
+set(CMAKE_CXX_FLAGS "-Wno-unused-command-line-argument -Wno-unknown-warning-option")
 
 execute_process(
   COMMAND llvm-config-6.0 --cxxflags

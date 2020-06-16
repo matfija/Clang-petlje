@@ -128,9 +128,9 @@ int main(int argc, char *argv[]) {
   }
   
   // Citanje argumenata
-  stari = std::string(argv[1]);
-  novi = std::string(argv[2]);
-  petlja = std::string(argv[3]);
+  stari = argv[1];
+  novi = argv[2];
+  petlja = argv[3];
   
   // Prvi deo algoritma
   if (petlja == "do")

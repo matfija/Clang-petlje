@@ -15,6 +15,13 @@ public:
   
   // Prekid obilaska kod do petlje
   bool TraverseDoStmt(DoStmt* s);
+  
+  // Nacin obrade deklaracije
+  bool TraverseDecl(Decl *d);
+
+private:
+  // Privatno cuvanje tekuce deklaracije
+  Decl* tekdek;
 };
 
 // Klasa za obradu dobijenog AST stabla
