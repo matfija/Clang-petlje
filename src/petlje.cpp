@@ -132,6 +132,14 @@ int main(int argc, char *argv[]) {
   novi = argv[2];
   petlja = argv[3];
   
+  // Prekid pogresno pokrenutog programa
+  if (petlja != "do" &&
+      petlja != "while" &&
+      petlja != "for") {
+    llvm::errs() << upotreba;
+    exit(EXIT_FAILURE);
+  }
+  
   // Prvi deo algoritma
   if (petlja == "do")
     obradi(While2Do);
