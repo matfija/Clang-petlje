@@ -1,11 +1,9 @@
 #include "PrepForConsumer.hpp"
 
-// Dodavanje inkrementa pre continue
+// Dodavanje koraka for petlje pre continue
 bool PrepForVisitor::VisitContinueStmt(ContinueStmt *s) {
-  // Inicijalizacija nove naredbe i
-  // continue kao njenog drugog dela
+  // Inicijalizacija nove naredbe
   Stmt *stmt = s;
-  ContinueStmt c{SourceLocation()};
 
   // Prolazak kroz roditelje tekuceg continue
   auto rod = TheASTContext.getParents(*s);
@@ -25,7 +23,7 @@ bool PrepForVisitor::VisitContinueStmt(ContinueStmt *s) {
       
       // Pravljenje nove naredbe
       stmt = CompoundStmt::Create(TheASTContext,
-                 std::vector<Stmt*>{(Stmt*)rr->getInc(), &c},
+                 std::vector<Stmt*>{(Stmt*)rr->getInc(), s},
                  SourceLocation(), SourceLocation());
       break;
     }

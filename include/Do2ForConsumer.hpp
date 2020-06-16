@@ -1,22 +1,20 @@
-#ifndef __FORDO_AST__
-#define __FORDO_AST__ 1
+#ifndef __DO2FOR__
+#define __DO2FOR__
 
 #include "Helpers.hpp"
 
-// Posetilac koji sve petlje pretvara u for
+// Posetilac koji do pretvara u for
 class Do2ForVisitor : public RecursiveASTVisitor<Do2ForVisitor>, public Helpers {
 public:
   // Inicijalizacija prepisivaca i konteksta
   Do2ForVisitor(Rewriter &R, ASTContext &A)
-    : Helpers(R, A)
-    {}
+    : Helpers(R, A) {}
   
   // Pretvaranje do-while petlji u for
   bool VisitDoStmt(DoStmt *s);
   
   // Prekid obilaska kod do petlje
   bool TraverseDoStmt(DoStmt* s);
-
 };
 
 // Klasa za obradu dobijenog AST stabla

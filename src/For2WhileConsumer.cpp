@@ -1,7 +1,9 @@
 #include "For2WhileConsumer.hpp"
   
-// Pretvaranje while petlji u for
+// Posetilac koji for pretvara u while
 bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
+  // Slozeni iskaz sa telom i inkrementacijom
+  // ili samo telo ako nema inkrementacije
   Stmt* telo;
   if (s->getInc() != nullptr) {
     telo = CompoundStmt::Create(TheASTContext,
@@ -11,17 +13,20 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
     telo = s->getBody();
   }
   
+  // While petlja sa novim telom i uslovom
+  // ili beskonacna petlja ako nema uslova
   Expr* cond = s->getCond();
   if (cond == nullptr) {
     const auto tip = TheASTContext.IntTy;
     llvm::APInt APValue(TheASTContext.getTypeSize(tip), 1);
     cond = IntegerLiteral::Create(TheASTContext, APValue,
                                   tip, SourceLocation());
-  } else {
-    cond = s->getCond();
   }
-  WhileStmt petlja(TheASTContext, s->getConditionVariable(), cond, telo, SourceLocation());
+  WhileStmt petlja(TheASTContext, nullptr, cond,
+                   telo, SourceLocation());
   
+  // Slozeni iskaz sa inicijalizacijom i petljom
+  // ili samo petlja ako nema inicijalizacije
   Stmt* initpet;
   if (s->getInit() != nullptr) {
     initpet = CompoundStmt::Create(TheASTContext,
@@ -31,15 +36,19 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
     initpet = &petlja;
   }
   
+  // Tekstualna zamena koda
   zameni(s, initpet);
+  
+  // Nastavljanje dalje
   return true;
- }
+}
 
 // Prekid obilaska kod while petlje
 bool For2WhileVisitor::TraverseForStmt(ForStmt* s) {
   return WalkUpFromForStmt(s);
 }
 
+// Svaka deklaracija obradjuje se zasebno
 bool For2WhileConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
   for (auto &x: DR)
     Visitor.TraverseDecl(x);

@@ -1,17 +1,16 @@
-#ifndef __WHILEFOR_AST__
-#define __WHILEFOR_AST__ 1
+#ifndef __FOR2DO__
+#define __FOR2DO__
 
 #include "Helpers.hpp"
 
-// Posetilac koji sve petlje pretvara u while
-class For2WhileVisitor : public RecursiveASTVisitor<For2WhileVisitor>, public Helpers {
+// Posetilac koji for pretvara u do
+class For2DoVisitor : public RecursiveASTVisitor<For2DoVisitor>, public Helpers {
 public:
   // Inicijalizacija prepisivaca i konteksta
-  For2WhileVisitor(Rewriter &R, ASTContext &A)
-    : Helpers(R, A)
-    {}
+  For2DoVisitor(Rewriter &R, ASTContext &A)
+    :Helpers(R, A) {}
   
-  // Pretvaranje for petlji u while
+  // Pretvaranje for petlji u do-while
   bool VisitForStmt(ForStmt *s);
   
   // Prekid obilaska kod for petlje
@@ -19,11 +18,11 @@ public:
 };
 
 // Klasa za obradu dobijenog AST stabla
-class For2WhileConsumer : public ASTConsumer {
+class For2DoConsumer : public ASTConsumer {
 public:
   // Konstruktor inicijalizuje posetioca
   // prepisivacem i kontekstom parsiranja
-  For2WhileConsumer(Rewriter &R, ASTContext &A)
+  For2DoConsumer(Rewriter &R, ASTContext &A)
     : Visitor(R, A) {}
 
   // Svaka deklaracija obradjuje se zasebno
@@ -31,7 +30,7 @@ public:
 
 private:
   // Privatno cuvanje posetioca stabla
-  For2WhileVisitor Visitor;
+  For2DoVisitor Visitor;
 };
 
 #endif

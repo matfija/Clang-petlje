@@ -1,5 +1,6 @@
 #include "While2DoConsumer.hpp"
 
+// Posetilac koji while pretvara u do
 bool While2DoVisitor::VisitWhileStmt(WhileStmt *s) {
   // Odgovarajuca do-while verzija
   DoStmt petlja(s->getBody(), s->getCond(),
@@ -20,6 +21,7 @@ bool While2DoVisitor::TraverseWhileStmt(WhileStmt* s) {
   return WalkUpFromWhileStmt(s);
 }
 
+// Svaka deklaracija obradjuje se zasebno
 bool While2DoConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
   for (auto &x: DR)
     Visitor.TraverseDecl(x);

@@ -1,8 +1,6 @@
 #include "For2DoConsumer.hpp"
 
-// Upotreba Clangovog imenskog prostora
-using namespace clang;
-
+// Posetilac koji for pretvara u do
 bool For2DoVisitor::VisitForStmt(ForStmt *s) {
   // Slozeni iskaz sa telom i inkrementacijom
   // ili samo telo ako nema inkrementacije
@@ -15,7 +13,7 @@ bool For2DoVisitor::VisitForStmt(ForStmt *s) {
     telo = s->getBody();
   }
   
-  // Do-while petlja sa novim telom i uslovom
+  // Do petlja sa novim telom i uslovom
   // ili beskonacna petlja ako nema uslova
   Expr* cond = s->getCond();
   if (cond == nullptr) {
@@ -54,6 +52,7 @@ bool For2DoVisitor::TraverseForStmt(ForStmt* s) {
   return WalkUpFromForStmt(s);
 }
 
+// Svaka deklaracija obradjuje se zasebno
 bool For2DoConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
   for (auto &x: DR)
     Visitor.TraverseDecl(x);

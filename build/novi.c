@@ -61,7 +61,10 @@ int main() {
     x = -5;
     if (x)
       do {
-        continue;
+        {
+          x++;
+          continue;
+        }
         x++;
       } while (x);
   }

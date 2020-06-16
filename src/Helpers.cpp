@@ -1,5 +1,6 @@
 #include "Helpers.hpp"
 
+// Tekstualna reprezentacija naredbe
 std::string Helpers::stampaj(Stmt* s) {
   std::string stmt;
   llvm::raw_string_ostream stream(stmt);
@@ -9,6 +10,7 @@ std::string Helpers::stampaj(Stmt* s) {
   return stmt;
 }
 
+// Tekstualna zamena koda
 void Helpers::zameni(Stmt* stari, Stmt* novi) {
   // Tekstualna reprezentacija novog iskaza
   std::string stmt = stampaj(novi);
@@ -23,8 +25,8 @@ void Helpers::zameni(Stmt* stari, Stmt* novi) {
                      TheRewriter.getLangOpts());
   std::string ime = tok.getName();
   
-  // Racunanje offseta osim ukoliko je kraj slozene naredbe,
-  // sto znaci sledi tacka-zapeta kao suvisni token
+  // Racunanje offseta osim ukoliko je kraj slozene naredbe;
+  // tada je tacka-zapeta ili zatvorena zagrada suvisni token
   const auto offset = Lexer::MeasureTokenLength(end,
                           TheRewriter.getSourceMgr(),
                           TheRewriter.getLangOpts())

@@ -1,5 +1,5 @@
-#ifndef __HELPERS_HPP__
-#define __HELPERS_HPP__ 1
+#ifndef __HELPERS__
+#define __HELPERS__
 
 // Ukljucivanje standardnih biblioteka
 #include <iostream>
@@ -28,19 +28,20 @@
 // Upotreba Clangovog imenskog prostora
 using namespace clang;
 
+// Pomocna natklasa sa bitnim metodama
 class Helpers {
 public:
   Helpers(Rewriter &R, ASTContext &A)
-    : TheRewriter(R), TheASTContext(A)
-      {}
+    : TheRewriter(R), TheASTContext(A) {}
   
-  // Dohvatanje tekstualne reprezentacije iskaza
+  // Tekstualna reprezentacija naredbe
   std::string stampaj(Stmt* s);
   
   // Tekstualna zamena koda
   void zameni(Stmt* stari, Stmt* novi);
 
 protected:
+  // Zasticeno cuvanje prepisivaca i konteksta
   Rewriter &TheRewriter;
   ASTContext &TheASTContext;
 };

@@ -1,8 +1,7 @@
 #include "Do2ForConsumer.hpp"
 
-// Pretvaranje do-while petlji u for
+// Posetilac koji do pretvara u for
 bool Do2ForVisitor::VisitDoStmt(DoStmt *s) {
-  // Nastavljanje dalje
   return true;
 }
 
@@ -11,6 +10,7 @@ bool Do2ForVisitor::TraverseDoStmt(DoStmt* s) {
   return WalkUpFromDoStmt(s);
 }
 
+// Svaka deklaracija obradjuje se zasebno
 bool Do2ForConsumer::HandleTopLevelDecl(DeclGroupRef DR) {
   for (auto &x: DR)
     Visitor.TraverseDecl(x);
