@@ -31,7 +31,7 @@ add_definitions(${LibClang_DEFINITIONS})
 
 include_directories(
   ${LibClang_INCLUDE_DIR}
-  include
+  inc
 )
 
 add_executable(petlje src/petlje.cpp src/Helpers.cpp src/Do2ForConsumer.cpp src/For2DoConsumer.cpp src/For2WhileConsumer.cpp src/While2DoConsumer.cpp src/While2ForConsumer.cpp src/PrepForConsumer.cpp)

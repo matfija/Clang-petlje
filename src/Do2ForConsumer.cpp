@@ -2,21 +2,17 @@
 
 // Posetilac koji do pretvara u for
 bool Do2ForVisitor::VisitDoStmt(DoStmt *s) {
-  // Pravljenje novog indentifikatora
-  auto &tablica = TheASTContext.Idents;
-  auto ident = &tablica.getOwn("cond");
-  
   // Deklaracija uslovne promenljive
   const auto tip = TheASTContext.IntTy;
   auto dekl = VarDecl::Create(TheASTContext, tekdek->getDeclContext(),
                               SourceLocation(), SourceLocation(),
-                              ident, tip, nullptr, SC_None);
+                              &TheASTContext.Idents.getOwn("cond"),
+                              tip, nullptr, SC_None);
   
   // Celobrojna jedinica za inicijalizaciju
   llvm::APInt APValue(TheASTContext.getTypeSize(tip), 1);
-  auto init = IntegerLiteral::Create(TheASTContext, APValue,
-                                     tip, SourceLocation());
-  dekl->setInit(init);
+  dekl->setInit(IntegerLiteral::Create(TheASTContext, APValue,
+                                       tip, SourceLocation()));
   
   // Naredba deklaracije uslovne promenljive
   DeclStmt deknar{DeclGroupRef(dekl), SourceLocation(), SourceLocation()};
