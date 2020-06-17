@@ -1,6 +1,6 @@
 #### clang-petlje
 
-## Transformacija petlji pomoću Klanga :loop:
+## Transformacija petlji :loop:
 Seminarski rad na kursu Konstrukcija kompilatora. Postavljen je sam pisani rad, kao i prateća aplikacija.
 
 Sažetak pisanog rada:
