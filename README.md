@@ -16,6 +16,7 @@ sudo apt-get install libclang-6.0-dev llvm-6.0-dev clang-format
 
 Primer prevođenja programa sistemom CMake:
 ```
+mkdir build
 cd build
 cmake ..
 make
