@@ -57,7 +57,7 @@ public:
   // Tekstualna zamena koda
   void zameni(Stmt *stari, Stmt *novi) {
     // Tekstualna reprezentacija novog iskaza
-    auto stmt = stampaj(novi);
+    const auto stmt = stampaj(novi);
     
     // Granicne oznake u kodu
     const auto start = stari->getSourceRange().getBegin();
@@ -67,7 +67,7 @@ public:
     Token tok;
     Lexer::getRawToken(end, tok, TheRewriter.getSourceMgr(),
                        TheRewriter.getLangOpts());
-    std::string ime = tok.getName();
+    const std::string ime = tok.getName();
     
     // Racunanje offseta osim ukoliko je kraj slozene naredbe;
     // tada je tacka-zapeta ili zatvorena zagrada suvisni token
