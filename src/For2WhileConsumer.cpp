@@ -5,7 +5,7 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
   // Slozeni iskaz sa telom i inkrementacijom
   // ili samo telo ako nema inkrementacije
   Stmt *telo;
-  if (s->getInc() != nullptr) {
+  if (s->getInc()) {
     telo = CompoundStmt::Create(TheASTContext,
                std::vector<Stmt *>{s->getBody(), s->getInc()},
                SourceLocation(), SourceLocation());
@@ -16,7 +16,7 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
   // While petlja sa novim telom i uslovom
   // ili beskonacna petlja ako nema uslova
   Expr *cond = s->getCond();
-  if (cond == nullptr) {
+  if (!cond) {
     const auto tip = TheASTContext.IntTy;
     llvm::APInt APValue(TheASTContext.getTypeSize(tip), 1);
     cond = IntegerLiteral::Create(TheASTContext, APValue,
@@ -28,7 +28,7 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
   // Slozeni iskaz sa inicijalizacijom i petljom
   // ili samo petlja ako nema inicijalizacije
   Stmt *initpet;
-  if (s->getInit() != nullptr) {
+  if (s->getInit()) {
     initpet = CompoundStmt::Create(TheASTContext,
                   std::vector<Stmt *>{s->getInit(), &petlja},
                   SourceLocation(), SourceLocation());

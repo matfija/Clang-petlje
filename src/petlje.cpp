@@ -18,7 +18,8 @@ enum Akcija {
 
 // Nacin upotrebe programa
 std::string stari, novi, petlja;
-const auto upotreba = "Upotreba: ./petlje <ulaz> <izlaz> <do|while|for>\n";
+const auto *upotreba = "Upotreba: ./petlje <ulaz> <izlaz> <do|while|for>\n";
+const auto *greska = "Neuspelo otvaranje datoteke!\n";
 
 // Obrada prema zeljenoj akciji; sustinski
 // boilerplate (sablonski) kod za rad sa AST
@@ -56,8 +57,14 @@ void obradi(const Akcija akcija) {
     Rewriter TheRewriter;
     TheRewriter.setSourceMgr(SourceMgr, TheCompInst.getLangOpts());
 
-    // Postavljanje prosledjenog fajla za ulazni
+    // Citanje prosledjenog fajla
     const auto *FileIn = FileMgr.getFile(stari);
+    if (!FileIn) {
+      llvm::errs() << greska;
+      exit(EXIT_FAILURE);
+    }
+    
+    // Postavljanje prosledjenog fajla za ulazni
     SourceMgr.setMainFileID(
         SourceMgr.createFileID(FileIn, SourceLocation(), SrcMgr::C_User));
     TheCompInst.getDiagnosticClient().BeginSourceFile(
@@ -94,20 +101,34 @@ void obradi(const Akcija akcija) {
     delete TheConsumer;
 
     // Upisivanje novog koda iz bafera; u slucaju da nema
-    // izmena, prosto prepisivanje starog koda
+    // izmena, prosto prepisivanje starog koda kao novog
     const auto *RewriteBuf =
         TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
-    if (RewriteBuf != nullptr) {
-      std::ofstream outFile(novi);
-      outFile << std::string(RewriteBuf->begin(), RewriteBuf->end());
+    if (RewriteBuf) {
+      // Otvaranje izlazne datoteke
+      std::ofstream izlaz(novi);
+      if (!izlaz) {
+        llvm::errs() << greska;
+        exit(EXIT_FAILURE);
+      }
+      
+      // Upisivanje rezultata
+      izlaz << std::string(RewriteBuf->begin(), RewriteBuf->end());
     } else if (stari == novi) {
       break;
     } else {
-      std::ifstream inFile(stari);
-      std::ofstream outFile(novi);
+      // Otvaranje ulazne i izlazne datoteke
+      std::ifstream ulaz(stari);
+      std::ofstream izlaz(novi);
+      if (!ulaz || !izlaz) {
+        llvm::errs() << greska;
+        exit(EXIT_FAILURE);
+      }
+      
+      // Prepisivanje ulaza na izlaz
       std::ostringstream buffer;
-      buffer << inFile.rdbuf();
-      outFile << buffer.str();
+      buffer << ulaz.rdbuf();
+      izlaz << buffer.str();
       break;
     }
     
