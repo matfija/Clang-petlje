@@ -17,6 +17,6 @@ bool While2DoVisitor::VisitWhileStmt(WhileStmt *s) {
 }
 
 // Prekid obilaska kod while petlje
-bool While2DoVisitor::TraverseWhileStmt(WhileStmt* s) {
+bool While2DoVisitor::TraverseWhileStmt(WhileStmt *s) {
   return WalkUpFromWhileStmt(s);
 }

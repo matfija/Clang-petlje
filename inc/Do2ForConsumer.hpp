@@ -14,14 +14,14 @@ public:
   bool VisitDoStmt(DoStmt *s);
   
   // Prekid obilaska kod do petlje
-  bool TraverseDoStmt(DoStmt* s);
+  bool TraverseDoStmt(DoStmt *s);
   
   // Nacin obrade deklaracije
   bool TraverseDecl(Decl *d);
 
 private:
   // Privatno cuvanje tekuce deklaracije
-  Decl* tekdek;
+  Decl *tekdek;
 };
 
 #endif

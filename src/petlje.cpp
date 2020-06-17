@@ -18,11 +18,11 @@ enum Akcija {
 
 // Nacin upotrebe programa
 std::string stari, novi, petlja;
-const auto upotreba = "Upotreba: ./petlje <stari> <novi> <do|while|for>\n";
+const auto upotreba = "Upotreba: ./petlje <ulaz> <izlaz> <do|while|for>\n";
 
 // Obrada prema zeljenoj akciji; sustinski
 // boilerplate (sablonski) kod za rad sa AST
-void obradi(const Akcija &akcija) {
+void obradi(const Akcija akcija) {
   // Parsiranje dokle god ima promena
   for(;;) {
     // Pravljenje i inicijalizacija prevodioca

@@ -16,14 +16,14 @@ bool PrepForVisitor::VisitContinueStmt(ContinueStmt *s) {
       return true;
     
     // Uzimanje roditelja koji je for
-    if (auto rr = dyn_cast<ForStmt>(r)) {
+    if (auto *rr = dyn_cast<ForStmt>(r)) {
       // Odustajanje ako nema inkrement
       if (!rr->getInc())
         return true;
       
       // Pravljenje nove naredbe
       stmt = CompoundStmt::Create(TheASTContext,
-                 std::vector<Stmt*>{(Stmt*)rr->getInc(), s},
+                 std::vector<Stmt *>{(Stmt *)rr->getInc(), s},
                  SourceLocation(), SourceLocation());
       break;
     }

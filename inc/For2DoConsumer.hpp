@@ -14,7 +14,7 @@ public:
   bool VisitForStmt(ForStmt *s);
   
   // Prekid obilaska kod for petlje
-  bool TraverseForStmt(ForStmt* s);
+  bool TraverseForStmt(ForStmt *s);
 };
 
 #endif

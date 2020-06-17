@@ -14,7 +14,7 @@ public:
   bool VisitWhileStmt(WhileStmt *s);
   
   // Prekid obilaska kod while petlje
-  bool TraverseWhileStmt(WhileStmt* s);
+  bool TraverseWhileStmt(WhileStmt *s);
 };
 
 #endif

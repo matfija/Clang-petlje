@@ -38,7 +38,7 @@ public:
     : TheRewriter(R), TheASTContext(A) {}
   
   // Tekstualna reprezentacija naredbe
-  std::string stampaj(Stmt* s) {
+  std::string stampaj(Stmt *s) {
     // Inicijalizacija izlaznog toka
     std::string stmt;
     llvm::raw_string_ostream stream(stmt);
@@ -55,9 +55,9 @@ public:
   }
   
   // Tekstualna zamena koda
-  void zameni(Stmt* stari, Stmt* novi) {
+  void zameni(Stmt *stari, Stmt *novi) {
     // Tekstualna reprezentacija novog iskaza
-    std::string stmt = stampaj(novi);
+    auto stmt = stampaj(novi);
     
     // Granicne oznake u kodu
     const auto start = stari->getSourceRange().getBegin();
@@ -98,7 +98,7 @@ public:
 
   // Svaka deklaracija obradjuje se zasebno
   bool HandleTopLevelDecl(DeclGroupRef DR) override {
-    for (auto &x: DR)
+    for (auto *x: DR)
       TheVisitor.TraverseDecl(x);
     return true;
   }

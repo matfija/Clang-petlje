@@ -4,10 +4,10 @@
 bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
   // Slozeni iskaz sa telom i inkrementacijom
   // ili samo telo ako nema inkrementacije
-  Stmt* telo;
+  Stmt *telo;
   if (s->getInc() != nullptr) {
     telo = CompoundStmt::Create(TheASTContext,
-               std::vector<Stmt*>{s->getBody(), s->getInc()},
+               std::vector<Stmt *>{s->getBody(), s->getInc()},
                SourceLocation(), SourceLocation());
   } else {
     telo = s->getBody();
@@ -15,7 +15,7 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
   
   // While petlja sa novim telom i uslovom
   // ili beskonacna petlja ako nema uslova
-  Expr* cond = s->getCond();
+  Expr *cond = s->getCond();
   if (cond == nullptr) {
     const auto tip = TheASTContext.IntTy;
     llvm::APInt APValue(TheASTContext.getTypeSize(tip), 1);
@@ -27,10 +27,10 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
   
   // Slozeni iskaz sa inicijalizacijom i petljom
   // ili samo petlja ako nema inicijalizacije
-  Stmt* initpet;
+  Stmt *initpet;
   if (s->getInit() != nullptr) {
     initpet = CompoundStmt::Create(TheASTContext,
-                  std::vector<Stmt*>{s->getInit(), &petlja},
+                  std::vector<Stmt *>{s->getInit(), &petlja},
                   SourceLocation(), SourceLocation());
   } else {
     initpet = &petlja;
@@ -44,6 +44,6 @@ bool For2WhileVisitor::VisitForStmt(ForStmt *s) {
 }
 
 // Prekid obilaska kod while petlje
-bool For2WhileVisitor::TraverseForStmt(ForStmt* s) {
+bool For2WhileVisitor::TraverseForStmt(ForStmt *s) {
   return WalkUpFromForStmt(s);
 }
