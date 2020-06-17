@@ -6,6 +6,8 @@ Seminarski rad na kursu Konstrukcija kompilatora. Postavljen je sam pisani rad, 
 Sažetak pisanog rada:
 > Razmotrena je upotreba Klanga kao biblioteke u cilju transformacije svih petlji u C kodu u željeni tip (for, while, do-while). Na osnovu uvodnih razmatranja implementirana je aplikacija, u koje svrhe je korišćen Кlangov aplikativni programski interfejs prema apstraktnom sintaksnom stablu. Same izmene vršene su u tekstu koda. Opisano je nekoliko izazova i problema – kako usput rešenih, tako i otvorenih – a neku su ilustrovani pratećim (test) primerima.
 
+
+## Podešavanje :memo:
 Primer podešavanja zavisnosti za Ubuntu:
 ```
 sudo apt-get update
